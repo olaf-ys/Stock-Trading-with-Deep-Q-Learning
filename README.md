@@ -24,7 +24,7 @@ First, I define the following terminologies according to my purpose:
 The building of the DQN model consists of 4 major parts: 1. Environment  2. LSTM model 3. Replay Memory 4. Agent 5. Trainer
 
 **1. Environment**\
-First, an environment is built using the OpenAI gym to simulate stock trading. The environment consists of 3 crucial methods: 1. reset() 2. get_observation() 3. step() 4. render()
+An environment is built using the OpenAI gym to simulate stock trading. The environment consists of 3 crucial methods: 1. reset() 2. get_observation() 3. step() 4. render()
 
 - the reset method restores the environment to the initial state at the beginning of a new episode
 - the get_observation method concatenates the state information
