@@ -21,7 +21,7 @@ First, I define the following terminologies according to my purpose:
 - S (State): stock info (given by a sliding window), balance, position, profits
 - Episode: $S_0, A_0, R_1, S_1, A_1, R_2, \ldots, S_t, A_t, R_{t+1}, \ldots, S_{T-1}, A_{T-1}, R_T, S_T$
 
-The building of the DQN model consists of 4 major parts: 1. Environment  2. Model (MLP & LSTM) 3. Replay Memory 4. Agent
+The building of the DQN model consists of 4 major parts: 1. Environment  2. LSTM model 3. Replay Memory 4. Agent 5. Trainer
 
 **1. Environment**\
 First, an environment is built using the OpenAI gym to simulate stock trading. The environment consists of 3 crucial methods: 1. reset() 2. get_observation() 3. step() 4. render()
