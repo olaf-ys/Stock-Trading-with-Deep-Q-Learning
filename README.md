@@ -50,4 +50,4 @@ To keep the size of the memory bounded, the oldest transition will be removed fr
 The agent estimates the Q values for each action at each state using trained model, and choose the action with the highest Q value. Moreover, to let the agent fully explore different strategies during early stages of episodes in the training process, $\epsilon$-greedy policy is applied to give small chances to non-optimal actions to be chosen by the agent, and the chances decrease with time. However, agent will only take deterministic actions (i.e. not using $\epsilon$-greedy policy) on the test data.
 
 **5. Trainer**\
-Trainer estimates Q and target Q through the models and update gradients via backpropagation.
+The trainer estimates Q and target Q through the models and update gradients via backpropagation.
