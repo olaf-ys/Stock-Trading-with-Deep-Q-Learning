@@ -1,4 +1,4 @@
-# Stock-Trading-with-Deep-Q-Learning
+# Stock-Trading-with-Deep-Q-Network
 -- Yuanshan Zhang, Mengxin Zhao, Jinke Han
 
 ## Introduction
