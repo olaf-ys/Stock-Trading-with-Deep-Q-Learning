@@ -58,7 +58,7 @@ Q_expected = self.agent.model(states).gather(1, actions).squeeze()
 Q_next = self.agent.model(next_states).detach().max(1)[0]
 Q_target = rewards + (self.gamma * Q_next * (1 - dones))
 ```
-Then, it calculates loss: $L = \underset{traget} {\Big(\big(r+\gamma \max Q(s', a', w)\big)}  - \underset{output} {Q(s, a, w)\Big)^2}$, and updates gradients via backpropagation.
+Then, it calculates loss, $L = \underset{traget} {\Big(\big(r+\gamma \max Q(s', a', w)\big)}  - \underset{output} {Q(s, a, w)\Big)^2}$, and updates gradients via backpropagation.
 
 ## Results
 Due to limited time and resources, I only ran 100 episodes and the experiment result is as follows: 
