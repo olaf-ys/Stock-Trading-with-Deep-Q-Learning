@@ -47,7 +47,10 @@ To keep the size of the memory bounded, the oldest transition will be removed fr
 ![示例图片](images/Replay_Memory.png)
 
 **4. Agent**\
-The agent estimates the Q values for each action at each state using trained model, and choose the action with the highest Q value. Moreover, to let the agent fully explore different strategies during early stages of episodes in the training process, $\epsilon$-greedy policy is applied to give small chances to non-optimal actions to be chosen by the agent, and the chances decrease with time. However, agent will only take deterministic actions (i.e. not using $\epsilon$-greedy policy) on the test data.
+The agent estimates the Q values for each action at each state using trained model, and choose the action with the highest Q value. Moreover, to let the agent fully explore different strategies during early stages of episodes in the training process, $\epsilon$-greedy policy is applied, giving non-optimal actions small chances to be chosen by the agent, and the chances decrease with time. However, agent will only take deterministic actions (i.e. not using $\epsilon$-greedy policy) on the test data.
 
 **5. Trainer**\
 The trainer estimates Q and target Q through the models and update gradients via backpropagation.
+
+## Results
+Because there are so many uncertainties in the stock market, it might require thousands of episodes for the model to start showing signs of stability and convergence. However, due to limited time and resources, I only ran 100 episodes and the experiment result is as follows: 
