@@ -2,13 +2,13 @@
 -- Yuanshan Zhang, Mengxin Zhao, Jinke Han
 
 ## Introduction
-Reinforcement learning is the state of art and most current AI research are focused on RL. It also succeeded in many real-world applications. For instance, auto-driving, the well-known Alpha Go, strategic gaming, and also stock trading. It is substantially different from supervised and unsupervised learning, and is regarded as the ‘third category of machine learning’ because in reinforcement learning, the agent learns by interacting with the environment.
+Reinforcement learning is the state of the art and most current AI research is focused on RL. It also succeeded in many real-world applications. For instance, auto-driving, the well-known Alpha Go, strategic gaming, and stock trading. It is substantially different from supervised and unsupervised learning and is regarded as the ‘third category of machine learning’ because, in reinforcement learning, the agent learns by interacting with the environment.
 
 ![示例图片](images/RL.png)
 
-DQN (Deep Q Network) is a combination of model-free reinforcement learning and deep neural network. DQN is suitable for tasks with large or continuous state or action space or when environment dynamics are indeterministic (reason for being a model-free algorithm). Therefore, using the action value function Q(s,a) enables the algorithm to learn the best policy directly from the action without the necessity of the full knowledge of the environment dynamics. 
+DQN (Deep Q Network) is a combination of model-free reinforcement learning and deep neural networks. DQN is suitable for tasks with large or continuous state or action space or when environment dynamics are indeterministic (the reason for being a model-free algorithm). Therefore, using the action value function $Q(s,a)$ enables the algorithm to learn the best policy directly from the action without the necessity of the full knowledge of the environment dynamics. 
 
-DQN is therefore suitable in trading scenarios since the state space is large (the stock market is changing every second) and the full knowledge of the environment dynamics is impossible to gain (no one knows what tommorrows’ stock market will look like).
+DQN is, therefore, suitable in trading scenarios since the state space is large (the stock market is changing every second) and the full knowledge of the environment dynamics is impossible to gain (no one knows what tomorrow’ stock market will look like).
 
 ![示例图片](images/DQN.png)
 
@@ -33,24 +33,24 @@ First, an environment is built using the OpenAI gym to simulate stock trading. T
 The functionality of the environment was tested using a subset of the data (see notebook for details)
 
 **2. Model**\
-An LSTM is used to estimate the Q function by using the current state as input. However, like mentioned above, since the environment dynamics is indeterministic, the ground truth of Q function can only be approximated. In reinforcement learning, approximating the target is called ‘bootstrapping’. The target Q is bootstrapped by using the same network but with the next state as input and less frequent network parameters update.
+An LSTM (Long Short Term Memory) is used to estimate the Q function by using the current state as input. However, as mentioned above, since the environment dynamics are indeterministic, the ground truth of Q function can only be approximated. In reinforcement learning, approximating the target is called ‘bootstrapping’. The target Q is bootstrapped using the same network but with the next state as input and less frequent network parameters updates.
 
 **3. Replay Memory**\
-Since we are now approximating the Q with a MLP model, updating the weights for a state-action pair will affect the output of other states as well. When training NNs using stochastic gradient descent for a supervised task (for example, a classification task), we use multiple epochs to iterate through the training data multiple times until it converges. This is not feasible in Q-learning, since the episodes will change during the training and as a result, some states that were visited in the early stages of training will become less likely to be visited later.
+Since we are now approximating the Q with the LSTM, updating the weights for a state-action pair will affect the output of other states as well. When training NNs using stochastic gradient descent for a supervised task (for example, a classification task), we use multiple epochs to iterate through the training data multiple times until it converges. This is not feasible in Q-learning, since the episodes will change during the training, and as a result, some states that were visited in the early stages of training will become less likely to be visited later.
 
 Furthermore, another problem is that when we train an NN, we assume that the training examples are IID (independently and identically distributed). However, the samples taken from an episode of the agent are not IID, as they obviously form a sequence of transitions.
 
 To solve these issues, as the agent interacts with the environment and generates a transition quintuple, we store a large (but finite) number of such transitions in a memory buffer, often called replay memory. After each new interaction (that is, the agent selects an action and executes it in the environment), the resulting new transition quintuple is appended to the memory.
 
-To keep the size of the memory bounded, the oldest transition will be removed from the memory . Then, a mini-batch of examples is randomly selected from the memory buffer, which will be used for computing the loss and updating the network parameters.
+To keep the size of the memory bound, the oldest transition will be removed from the memory. Then, a mini-batch of examples is randomly selected from the memory buffer, which will be used for computing the loss and updating the network parameters.
 
 ![示例图片](images/Replay_Memory.png)
 
 **4. Agent**\
-The agent estimates the Q values for each action at each state using trained model, and choose the action with the highest Q value. Moreover, to let the agent fully explore different strategies during early stages of episodes in the training process, $\epsilon$-greedy policy is applied, giving non-optimal actions small chances to be chosen by the agent, and the chances decrease with time. However, agent will only take deterministic actions (i.e. not using $\epsilon$-greedy policy) on the test data.
+The agent estimates the Q values for each action at each state using the trained LSTM model and chooses the action with the highest Q value. Moreover, to let the agent fully explore different strategies during the early stages of episodes in the training process, $\epsilon$-greedy policy is applied, giving non-optimal actions small chances to be chosen by the agent, and the chances decrease with time. However, the agent will only take deterministic actions (i.e. not using $\epsilon$-greedy policy) on the test data.
 
 **5. Trainer**\
-The trainer estimates Q and target Q through the models and update gradients via backpropagation.
+The trainer estimates Q and target Q through the LSTM, calculates loss, and updates gradients via backpropagation.
 
 ## Results
 Due to limited time and resources, I only ran 100 episodes and the experiment result is as follows: 
@@ -59,4 +59,4 @@ Due to limited time and resources, I only ran 100 episodes and the experiment re
 
 ![示例图片](images/Loss_Total_Reward.png)
 
-We can see that the loss and total reward barely converge after 100 episodes, which is quite reasonable since there are so many uncertainties in the stock market, and it usually require thousands of episodes for the model to start showing signs of stability and convergence. Although the model did not converge, the agent successfully made $3996.9793 profit on the test data. The reason is that since the agent only chooses the action with the highest Q value on the test data, it is almost gauranteed that the agent will perform better on the test data. In addition, that the agent is making profits might be chance since there are a lot of big fluctuations on the training loss and total rewards. 
+We can see that the loss and total reward barely converge after 100 episodes, which is quite reasonable since there are so many uncertainties in the stock market, and it usually requires thousands of episodes for the model to start showing signs of stability and convergence. Although the model did not converge, the agent successfully made a $3996.9793 profit on the test data. The reason behind the controversy is that since the agent only chooses the action with the highest Q value on the test data, it is almost guaranteed that the agent will perform better on the test data. Additionally, the fact that the agent is making profits may be coincidental, given the significant fluctuations in training loss and total rewards. For instance, while the model was winning in the 100th episode, it was losing in the 99th episode.
