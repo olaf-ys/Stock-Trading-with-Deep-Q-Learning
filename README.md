@@ -53,4 +53,10 @@ The agent estimates the Q values for each action at each state using trained mod
 The trainer estimates Q and target Q through the models and update gradients via backpropagation.
 
 ## Results
-Because there are so many uncertainties in the stock market, it might require thousands of episodes for the model to start showing signs of stability and convergence. However, due to limited time and resources, I only ran 100 episodes and the experiment result is as follows: 
+Due to limited time and resources, I only ran 100 episodes and the experiment result is as follows: 
+
+![示例图片](images/Episode_Loss.png)
+
+![示例图片](images/Loss_Total_Reward.png)
+
+We can see that the loss and total reward barely converge after 100 episodes. This is quite reasonable since there are so many uncertainties in the stock market, and it usually require thousands of episodes for the model to start showing signs of stability and convergence. Although the model did not converge, the agent successfully made $3996.9793 profit on the test data. The reason is that since the agent only chooses the action with the highest Q value on the test data, it is almost gauranteed that the agent will perform better on the test data. In addition, that the agent is making profits might be chance since there are a lot of big fluctuations on the training loss and total rewards. 
