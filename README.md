@@ -8,6 +8,8 @@ DQN (Deep Q Network) is a combination of model-free reinforcement learning and d
 
 DQN is therefore suitable in trading scenarios since the state space is large (the stock market is changing every second) and the full knowledge of the environment dynamics is impossible to gain (no one knows what tommorrows’ stock market will look like).
 
+![示例图片](images/DQN.png)
+
 ## What I did
 The building of our DQN model consists of 4 major parts: 1. Environment  2. Model (MLP & LSTM) 3. Replay Memory 4. Agent
 
